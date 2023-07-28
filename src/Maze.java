@@ -11,12 +11,17 @@ import java.util.Random;
 
 public class Maze {
 
-	private final int MAX_SIZE = 16; // sets max hieght/width to 32
+	private final int MAX_SIZE = 8; // sets max hieght/width to 32
 	private int[][] maze; // sets 32x32 int array
+	private final int START_X, START_Y;
+	private final int END_X, END_Y;
 
 	Maze() {
 		this.maze = new int[MAX_SIZE][MAX_SIZE];
-		// FIXME build actual maze
+		this.START_X = 0;
+		this.START_Y = 0;
+		this.END_X = MAX_SIZE - 1;
+		this.END_Y = MAX_SIZE - 1;
 	}
 
 	/**
@@ -28,11 +33,16 @@ public class Maze {
 	protected int getElement(int x, int y) {
 		return this.maze[x][y];
 	}
+	
+	protected int getSize() {
+		return this.MAX_SIZE;
+	}
 
 	protected void setElement(int x, int y, int newElement) {
 
-		if ((x > (MAX_SIZE - 1)) || ((MAX_SIZE - 1) > 31)) {
+		if ((x >= MAX_SIZE)) {
 			System.out.println("Index too large: IOB");
+			System.out.println("Attempted index was: " + x + ", " + y);
 			return;
 		}
 		this.maze[x][y] = newElement;
@@ -43,22 +53,32 @@ public class Maze {
 	 */
 	protected void generateMaze() {
 		Random rand = new Random();
+		
+		setElement(this.START_X, this.START_Y, 8);
+		setElement(this.END_X, this.END_Y, 9);
+		// set start , finish indexes
+
 		int wall = -1;
-		int upper = MAX_SIZE - 2;
-		// int int_random = rand.nextInt(upper);
+		int upper = MAX_SIZE - 1;
 		int wallStart = 1;
 		int wallDepth;
+		boolean up = false; // allows walls to alternate horizontal side of origin
 
 		while (wallStart <= upper) {
-			wallStart += ((rand.nextInt(upper)) % 6);
 			wallDepth = rand.nextInt(upper);
-
-			for (int y = 0; y <= wallDepth; y++) {
-
-				setElement(wallStart, y, wall);
-
+			if(up) {
+				for (int y = 0; y <= wallDepth; y++) {
+					setElement(wallStart, upper - y, wall);
+				}
 			}
-
+			else {
+				for (int y = 0; y <= wallDepth; y++) {
+					setElement(wallStart, y, wall);
+				}
+			}
+			
+			wallStart += 4;
+			up = !up;
 		}
 
 	}
