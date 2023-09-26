@@ -7,7 +7,6 @@
  * 
  * @author wyattsmac
  *
- *
  */
 import java.util.Random;
 
@@ -78,13 +77,16 @@ public class Maze {
 					setElement(wallStart, y, wall);
 				}
 			}
+			wallStart +=  3;
+			// change upper to accomodate rand.nextInt() fixed nature
+			upper = wallDepth + 1;
 			up = !up;
 		}
 
 	}
 
 	protected void clearMaze() {
-
+		//fixme; add method
 	}
 
 	public String toString() {

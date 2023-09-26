@@ -1,5 +1,5 @@
 /**
- * Back tracking Maze Solver
+ * Backtracking Maze Solver
  * @author Wyatt Murphy
  * 
  */
@@ -47,10 +47,10 @@ public class MazeSolver {
 		// decision space - maze
 		// key choice - making 0 cell part of path to finish
 		// constraints
-		// - place 2 cell only if valid cell
-		// - move right, down, up
-		// - don't move over placed path
-		// goal - Stop when fair path reaches end square
+		// - place 2 cell only if valid move
+		// - move right, down, up as far as possible
+		// backtrack 
+		// - Stop when fair path reaches end square
 
 		// base case : 0 -> solution
 		if (x == (this.MAX_SIZE - 1) && y == this.MAX_SIZE - 1) {
@@ -82,7 +82,7 @@ public class MazeSolver {
 				return true;
 			}
 
-			// back track, mark position as open space
+			// backtrack, mark position as open space
 			this.themaze.setElement(x, y, 0);
 
 		}
@@ -90,6 +90,12 @@ public class MazeSolver {
 		return false;
 	}
 
+	/**
+	 * checks if move is valid
+	 * @param x x coordinate
+	 * @param y y coordinate
+	 * @return boolean of moves validity
+	 */
 	private boolean isValidMove(int x, int y) {
 
 		// case : 0 -> index out of bounds
@@ -97,12 +103,12 @@ public class MazeSolver {
 			return false;
 		}
 
-		// case : 2 -> occupied cell
+		// case : 1 -> occupied cell
 		if (this.themaze.getElement(x, y) == 2) {
 			return false;
 		}
 
-		// case : 3 -> space is a wall
+		// case : 2 -> space is a wall
 		if (this.themaze.getElement(x, y) == -1) {
 			return false;
 		}
