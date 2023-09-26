@@ -1,7 +1,9 @@
 
 /**
- * Maze class that builds and stores maze to be solved Maze units 0 -> open
- * space, 1 -> open space part of path, -1 -> wall
+ * 	Maze class; builds and stores maze to be solved Maze 
+ *  0 -> open space
+ *  1 -> open space (part of path)
+ *  -1 -> wall
  * 
  * @author wyattsmac
  *
@@ -11,8 +13,8 @@ import java.util.Random;
 
 public class Maze {
 
-	private final int MAX_SIZE = 8; // sets max hieght/width to 32
-	private int[][] maze; // sets 32x32 int array
+	private final int MAX_SIZE = 16; // sets max hieght/width to 16
+	private int[][] maze; // sets 16x16 int array
 	private final int START_X, START_Y;
 	private final int END_X, END_Y;
 
@@ -33,7 +35,7 @@ public class Maze {
 	protected int getElement(int x, int y) {
 		return this.maze[x][y];
 	}
-	
+
 	protected int getSize() {
 		return this.MAX_SIZE;
 	}
@@ -53,7 +55,7 @@ public class Maze {
 	 */
 	protected void generateMaze() {
 		Random rand = new Random();
-		
+
 		setElement(this.START_X, this.START_Y, 8);
 		setElement(this.END_X, this.END_Y, 9);
 		// set start , finish indexes
@@ -62,22 +64,20 @@ public class Maze {
 		int upper = MAX_SIZE - 1;
 		int wallStart = 1;
 		int wallDepth;
-		boolean up = false; // allows walls to alternate horizontal side of origin
+		// walls to alternate vertical side of origin
+		boolean up = false;
 
 		while (wallStart <= upper) {
 			wallDepth = rand.nextInt(upper);
-			if(up) {
+			if (up) {
 				for (int y = 0; y <= wallDepth; y++) {
 					setElement(wallStart, upper - y, wall);
 				}
-			}
-			else {
+			} else {
 				for (int y = 0; y <= wallDepth; y++) {
 					setElement(wallStart, y, wall);
 				}
 			}
-			
-			wallStart += 4;
 			up = !up;
 		}
 
